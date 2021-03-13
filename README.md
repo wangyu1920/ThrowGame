@@ -1,2 +1,2 @@
-# ThrowGame
-this is some codes the first time i creat the project
+# 初始代码
+这里存放了这个APP刚写的时候的一些class文件，后来单独设计了circle类和circlesManager类增加了扩展性，整体代码思路有了较大变化
