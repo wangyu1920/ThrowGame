@@ -117,13 +117,28 @@ public class FlyCount implements PhysicalParameter{
         return region.contains(point.x, point.y);
     }
 
+    private double getKnockDirection(PathWithMode pathWithMode,Point thePoint) {
+        pathWithMode.close();
+        RectF bounds = new RectF();
+        pathWithMode.computeBounds(bounds, true);
+        if (Math.abs(thePoint.x - bounds.left) < 6) {
+            return Math.PI/2;
+        } else if (Math.abs(thePoint.y - bounds.top) < 6) {
+            return 0;
+        } else if (Math.abs(thePoint.x - bounds.right) < 6) {
+            return -Math.PI/2;
+        } else {
+            return Math.PI;
+        }
+
+    }
 
 //  如果小球标志点触碰了path,则根据其mode执行相应操作,并返回该path,没有则返回null
     public PathWithMode countOfPaths() {
         if (pathManager.getNum() == 0) {
             return null;
         }
-        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,50);
+        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,10);
         if (paths == null) {
             return null;
         }
@@ -137,7 +152,7 @@ public class FlyCount implements PhysicalParameter{
                     if (path.isCircle) {
                         radian = measure(path.point);
                     } else {
-                        radian = measure(thePoint);
+                        radian = getKnockDirection(path,thePoint);
                     }
                     switch (path.mode) {
                         case 1://原速率
@@ -203,4 +218,6 @@ public class FlyCount implements PhysicalParameter{
         }
         return new Point(x,y);
     }
+
+
 }

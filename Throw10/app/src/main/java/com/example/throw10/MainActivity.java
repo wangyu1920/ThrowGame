@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     circle.createPathManager(mainView.pathManager);
                     num=mainView.circleManager.addCircle(circle);
                 }
+                mainView.circleManager.deleteCircleIfNeeded();
             }
         });
         buttonAddPath.setOnClickListener(new View.OnClickListener() {

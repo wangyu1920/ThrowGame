@@ -102,6 +102,20 @@ public class CirclesManager{
         }
         refreshIterator();
     }
+//    运用了递归来防止java.util.ConcurrentModificationException（删除元素时Iterator.hasNext()为True但.next()没东西了）
+    public void deleteCircleIfNeeded() {
+        refreshIterator();
+        while (keyIterator.hasNext()) {
+            String key= (String) keyIterator.next();
+            Circle circle=(Circle) hashtable.get(key);
+            if (circle!=null&&!circle.isExist()) {
+                hashtable.remove(key);
+                deleteCircleIfNeeded();
+            }
+        }
+
+        refreshIterator();
+    }
     public void deleteCircle() {
         hashtable.clear();
         refreshIterator();

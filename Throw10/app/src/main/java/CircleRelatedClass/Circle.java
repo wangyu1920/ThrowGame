@@ -30,6 +30,30 @@ public class Circle extends FlyCount{
     private boolean willFly=false;
     Paint paint;
     Point point0;
+    Thread threadOfCount= new Thread(
+            () -> {
+                long i=0;
+                isFly = true;
+                float[] floats=measure(point0);
+                createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
+                while (true) {
+                    if (isFly) {
+                        if (point.y > device_height||point.x>device_width|point.x<-r) {
+                            isFly=false;
+                            isExist=false;
+                            return;
+                        }
+                        point=count();
+
+                    }
+                    try {
+                        wait(20);
+                    } catch (Exception ignore) {
+
+                    }
+                }
+            }
+    );
 //—————————————getter and setter—————————————————————————————————————————————
 
 
@@ -138,28 +162,15 @@ public class Circle extends FlyCount{
         region.setPath(pathOfCircle, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
         return region.contains(point.x, point.y);
     }
-//    绘制图像必定执行的一个函数，如果在飞，会更新小球坐标;非处边界则回收小球
-    public void moveByFly() {
-        if (!isFly()) {
-            return;
-        }
-        if (point.y > device_height||point.x>device_width|point.x<-r) {
-            isFly=false;
-            isExist=false;
-            return;
-        }
-        point=count();
-    }
+
 //    强制小球从指定位置起飞
     public void forceFly(float velocity0, float angleOfThrow, Point point0) {
         createFlyCount(velocity0, angleOfThrow, point0);
         isFly=true;
     }
-//  让小球起飞
+//  让小球起飞,更新小球坐标;飞出边界则回收小球
     public void Fly(Point point0) {
-        isFly = true;
-        float[] floats=measure(point0);
-        createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
+        threadOfCount.start();
     }
 //    根据事件来改变小球的坐标，b决定了是否发射小球
     public void moveByTouch(MotionEvent event,Boolean b) {
@@ -176,7 +187,7 @@ public class Circle extends FlyCount{
         float y=event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (Math.abs(x - point.x) + Math.abs(y - point.y) > r*1.3) {
+                if (Math.abs(x - point.x) + Math.abs(y - point.y) > r*1.4) {
                     return;
                 }
                  point0=new Point(point.x,point.y);
@@ -225,14 +236,10 @@ public class Circle extends FlyCount{
             paint = new Paint();
             paint.setColor(getColorOfCircle());
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                moveByFly();
-            }
-        }).start();
         if (isExist()) {
             canvas.drawCircle(point.x,point.y,r,paint);
+        }else {
+            try{threadOfCount.interrupt();}catch (Exception ignore){}
         }
         if (isTouch()&&willFly&&isExist()) {
             //        小球到固定点上的一条线

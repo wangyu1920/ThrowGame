@@ -15,12 +15,12 @@ public class PathWithMode extends Path {
     public Point point;
 //    是圆形则是半径，否则是影响范围，PathManager类会依据这个查找Path
     public float r;
-    public PathWithMode(String name, Point point, float r ,boolean b) {
+    public PathWithMode(String name, Point point, float r ,boolean isCircle) {
         super();
         this.point=point;
         this.r=r;
         this.name=name;
-        this.isCircle=b;
+        this.isCircle=isCircle;
     }
     //    返回点与球心的距离
     public float distanceOfPoint(Point p) {
