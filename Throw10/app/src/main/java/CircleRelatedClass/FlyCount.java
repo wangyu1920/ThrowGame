@@ -9,8 +9,6 @@ import PathRelatedClass.PathWithMode;
 
 public class FlyCount implements PhysicalParameter{
 //    计算斜抛所用到的参数
-    private float velocity0;
-    private float angleOfThrow;
     double vx0;
     double vy0;
     private int x0;
@@ -33,7 +31,9 @@ public class FlyCount implements PhysicalParameter{
     private PathManager pathManager=new PathManager();
     //    小球速度系数，决定整体运动快慢
     protected double vRate=0.4;
-
+//    计算一定次数后将pathKnocked变为null用到的计数变量
+    private long countNum=1000;
+    private long readCountNum=1000;
 
 //    ________________________________________________
 
@@ -95,8 +95,8 @@ public class FlyCount implements PhysicalParameter{
 
     private void reflect(double radian,float rateY,float rateX) {
         long t = System.currentTimeMillis();
-        double vx= (velocity0*Math.cos(angleOfThrow)+(ax+((double)fx)/m) * (t - t0)/100);
-        double vy= (velocity0*Math.sin(angleOfThrow)+(ay+((double)fy)/m) * (t - t0)/100);
+        double vx= (vx0+(ax+((double)fx)/m) * (t - t0)/100);
+        double vy= (vy0+(ay+((double)fy)/m) * (t - t0)/100);
         double vx1 = (vx * Math.cos(radian)+vy*Math.sin(radian))*rateX;
         double vy1 = (vx * -Math.sin(radian)+vy*Math.cos(radian))*rateY;
         vx0 = (vx1 * Math.cos(-radian)+vy1*Math.sin(-radian));
@@ -133,6 +133,7 @@ public class FlyCount implements PhysicalParameter{
 
     }
 
+
 //  如果小球标志点触碰了path,则根据其mode执行相应操作,并返回该path,没有则返回null
     public PathWithMode countOfPaths() {
         if (pathManager.getNum() == 0) {
@@ -141,6 +142,9 @@ public class FlyCount implements PhysicalParameter{
         PathWithMode[] paths=pathManager.getPathNeedCount(point,r,10);
         if (paths == null) {
             return null;
+        }
+        if (countNum % readCountNum > 500) {
+            pathKnocked=null;
         }
         for (byte i = 0; i < num;i++) {
             Point thePoint=new Point(point.x+(int)(r*Math.cos(2*Math.PI*i/360)),
@@ -162,7 +166,6 @@ public class FlyCount implements PhysicalParameter{
                             reflect(radian,path.rateY,path.rateX);
                             break;
                         case 3://骤停
-                            velocity0=0;
                             vx0=0;
                             vy0=0;
                             isFly=false;
@@ -179,8 +182,6 @@ public class FlyCount implements PhysicalParameter{
 
 //    -------------------------------------------------
     public void createFlyCount(float velocity0, float angleOfThrow, Point point, int fx, int fy, int mm) {
-        this.velocity0 = velocity0;
-        this.angleOfThrow = angleOfThrow;
         this.x0 = point.x;
         this.y0 = point.y;
         this.fx = fx;
@@ -191,8 +192,6 @@ public class FlyCount implements PhysicalParameter{
     }
 
     public void createFlyCount(float velocity0, float angleOfThrow, Point point0) {
-        this.velocity0 = velocity0;
-        this.angleOfThrow = angleOfThrow;
         this.x0 = point0.x;
         this.y0 = point0.y;
         this.t0 = System.currentTimeMillis();
@@ -211,9 +210,11 @@ public class FlyCount implements PhysicalParameter{
                        +0.5 * (ay+fy/m) * (t - t0) * (t - t0)/10000*vRate );
         if (pathManager.getNum()!=0) {
             PathWithMode newPathKnocked =countOfPaths();
+            countNum++;
             if (newPathKnocked != null) {
                 isKnock=true;
                 pathKnocked=newPathKnocked;
+                readCountNum=countNum;
             }
         }
         return new Point(x,y);
