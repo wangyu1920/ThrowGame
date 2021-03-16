@@ -5,41 +5,50 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 
 import CircleRelatedClass.Circle;
 
 public class PathManager {
-    Hashtable<String, PathWithMode> pathHashtable = new Hashtable<>();
+    HashMap<String, PathWithMode> pathHashMap = new HashMap<>();
 
     //    -----------------------------------------
     public int getNum() {
-        return pathHashtable.size();
+        return pathHashMap.size();
     }
+//    增删Path
     public void addPath(PathWithMode pathWithMode) {
-        if (pathHashtable.containsKey(pathWithMode.getName())) {
+        if (pathHashMap.containsKey(pathWithMode.getName())) {
             return;
         }
-        pathHashtable.put(pathWithMode.getName(), pathWithMode);
+        pathHashMap.put(pathWithMode.getName(), pathWithMode);
+    }
+
+    public void addPath() {
+
     }
 
     public void removePath(String name) {
-        pathHashtable.remove(name);
+        pathHashMap.remove(name);
+    }
+
+    public void removePath(boolean isCircle) {
     }
 
     public void removePath() {
-        pathHashtable.clear();
+        pathHashMap.clear();
     }
 
     public PathWithMode[] getAll() {
-        return pathHashtable.values().toArray(new PathWithMode[0]);
+        return pathHashMap.values().toArray(new PathWithMode[0]);
     }
 
     //    返回与参数Point距离小于Path.r+r+范围d的Path集合，用作FlyCount的计算
     public PathWithMode[] getPathNeedCount(Point point,float r,float d) {
-        Iterator<PathWithMode> valuesIterator=pathHashtable.values().iterator();
-        PathWithMode[] paths=new PathWithMode[pathHashtable.size()];
+        Iterator<PathWithMode> valuesIterator=pathHashMap.values().iterator();
+        PathWithMode[] paths=new PathWithMode[pathHashMap.size()];
         byte num=0;
         byte i=0;
         while (valuesIterator.hasNext()) {
@@ -61,7 +70,7 @@ public class PathManager {
     }
 
     public PathWithMode getOne(String name) {
-        return pathHashtable.get(name);
+        return pathHashMap.get(name);
     }
 
 
@@ -70,7 +79,7 @@ public class PathManager {
         Paint paint=new Paint();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setColor(Color.YELLOW);
-        for (PathWithMode pathWithMode : pathHashtable.values()) {
+        for (PathWithMode pathWithMode : pathHashMap.values()) {
             canvas.drawPath(pathWithMode, paint);
         }
     }

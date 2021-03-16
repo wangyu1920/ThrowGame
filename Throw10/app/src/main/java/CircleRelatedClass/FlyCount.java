@@ -30,7 +30,7 @@ public class FlyCount implements PhysicalParameter{
 //    纳入计算的路径集合
     private PathManager pathManager=new PathManager();
     //    小球速度系数，决定整体运动快慢
-    protected double vRate=0.4;
+    protected double vRate=0.3;
 //    计算一定次数后将pathKnocked变为null用到的计数变量
     private long countNum=1000;
     private long readCountNum=1000;
@@ -73,7 +73,7 @@ public class FlyCount implements PhysicalParameter{
         }
         return points;
     }
-    //    测出小球相对指定点的弧度
+    //    测出小球相对指定点的弧度-Math.PI/2
     private double measure(Point point0) {
         float dy=point.y-point0.y;
         float dx=point.x-point0.x;
@@ -116,7 +116,8 @@ public class FlyCount implements PhysicalParameter{
         region.setPath(path, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
         return region.contains(point.x, point.y);
     }
-
+//  和measure()方法对应的用来判断小球撞击长方形path方向的方法,返回值也-PI/2
+//    测的是点相对path中心的弧度-PI/2
     private double getKnockDirection(PathWithMode pathWithMode,Point thePoint) {
         pathWithMode.close();
         RectF bounds = new RectF();
@@ -146,39 +147,92 @@ public class FlyCount implements PhysicalParameter{
         if (countNum % readCountNum > 500) {
             pathKnocked=null;
         }
-        for (byte i = 0; i < num;i++) {
-            Point thePoint=new Point(point.x+(int)(r*Math.cos(2*Math.PI*i/360)),
-                    point.y + (int) (r*Math.sin(2*Math.PI*i/num)));
-            for (PathWithMode path : paths) {
-                if (pointInPath(path, thePoint)&&
-                        (!path.equal(pathKnocked))) {
-                    double radian;
-                    if (path.isCircle) {
-                        radian = measure(path.point);
-                    } else {
-                        radian = getKnockDirection(path,thePoint);
-                    }
-                    switch (path.mode) {
-                        case 1://原速率
-                            reflect(radian,-1,1);
-                            break;
-                        case 2://百分比
-                            reflect(radian,path.rateY,path.rateX);
-                            break;
-                        case 3://骤停
-                            vx0=0;
-                            vy0=0;
-                            isFly=false;
-                            break;
-                        case 4:// TODO: 2021/3/11
+        for (PathWithMode path : paths) {
+            if (!path.isCircle) {
+                double radian = getKnockDirection(path, point);
+                for (byte i = 0; i < 4; i++) {
+                    Point pointNeeded = new Point((int) (point.x + Math.cos(radian - i * Math.PI / 2)),
+                            (int) (point.y + Math.sin(radian - i * Math.PI / 2)));
+                    if (pointInPath(path, pointNeeded) &&
+                            (!path.equal(pathKnocked))) {
+                        radian = getKnockDirection(path, pointNeeded);
+                        switch (path.mode) {
+                            case 1://原速率
+                                reflect(radian, -1, 1);
+                                break;
+                            case 2://百分比
+                                reflect(radian, path.rateY, path.rateX);
+                                break;
+                            case 3://骤停
+                                vx0 = 0;
+                                vy0 = 0;
+                                isFly = false;
+                                break;
+                            case 4:// TODO: 2021/3/11
 
+                        }
+                        return path;
                     }
-                    return path;
+                }
+                for (byte i = 0; i < num;i++) {
+                    Point thePoint = new Point(point.x + (int) (r * Math.cos(2 * Math.PI * i / 360)),
+                            point.y + (int) (r * Math.sin(2 * Math.PI * i / num)));
+                    if (pointInPath(path, thePoint) &&
+                            (!path.equal(pathKnocked))) {
+                        radian = getKnockDirection(path,thePoint);
+                        switch (path.mode) {
+                            case 1://原速率
+                                reflect(radian, -1, 1);
+                                break;
+                            case 2://百分比
+                                reflect(radian, path.rateY, path.rateX);
+                                break;
+                            case 3://骤停
+                                vx0 = 0;
+                                vy0 = 0;
+                                isFly = false;
+                                break;
+                            case 4:// TODO: 2021/3/11
+
+                        }
+                        return path;
+                    }
+                }
+            } else {
+                for (byte i = 0; i < num;i++) {
+                    Point thePoint = new Point(point.x + (int) (r * Math.cos(2 * Math.PI * i / 360)),
+                            point.y + (int) (r * Math.sin(2 * Math.PI * i / num)));
+                    if (pointInPath(path, thePoint) &&
+                            (!path.equal(pathKnocked))) {
+                        double radian = measure(path.point);
+                        switch (path.mode) {
+                            case 1://原速率
+                                reflect(radian, -1, 1);
+                                break;
+                            case 2://百分比
+                                reflect(radian, path.rateY, path.rateX);
+                                break;
+                            case 3://骤停
+                                vx0 = 0;
+                                vy0 = 0;
+                                isFly = false;
+                                break;
+                            case 4:// TODO: 2021/3/11
+
+                        }
+                        return path;
+                    }
                 }
             }
         }
         return null;
     }
+
+    /*for (byte i = 0; i < num;i++) {
+        Point thePoint=new Point(point.x+(int)(r*Math.cos(2*Math.PI*i/360)),
+                point.y + (int) (r*Math.sin(2*Math.PI*i/num)));
+
+    }*/
 
 //    -------------------------------------------------
     public void createFlyCount(float velocity0, float angleOfThrow, Point point, int fx, int fy, int mm) {

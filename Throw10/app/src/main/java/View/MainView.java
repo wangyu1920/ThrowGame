@@ -25,6 +25,7 @@ public class MainView extends View {
     public float distance=100;
 //    <是否让球飞>
     public boolean isFly=false;
+//    画布大小参数
     private int height=0;
     private int width=0;
 //    ------------------------------------
@@ -33,10 +34,13 @@ public class MainView extends View {
         super(context, attrs);
     }
     @Override
+    @SuppressLint("DrawAllocation")
     protected void onDraw(Canvas canvas) {
         if (height == 0) {
             height=getHeight();
             width=getWidth();
+        }
+        if (pathManager.getOne("bound") == null) {
             PathWithMode pathWithMode=new PathWithMode("bound",
                     new Point(height+1,
                             width/2),
@@ -59,9 +63,8 @@ public class MainView extends View {
                 time+=circleManager.Draw(canvas, circleManager.getCirclesIsFly(true));
                 time+=circleManager.Draw(canvas, circleManager.getCirclesIsTouch(true));
                 break;
-
         }
-        postInvalidateDelayed((30-time)>0?(20-time):1);
+        postInvalidateDelayed((16-time)>0?(16-time):1);
         super.onDraw(canvas);
     }
 
@@ -69,7 +72,7 @@ public class MainView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (touchMode) {
-            case 1:
+            case 1://触摸最近的
                 Circle circle=(circleManager.getCircleNearliest(
                         new Point((int)event.getX(),(int)event.getY()),true)
                 );
@@ -79,10 +82,12 @@ public class MainView extends View {
                 circleManager.moveByTouch(new Circle[]{circle}
                         ,event,isFly);
                 break;
-            case 2:
+            case 2://触摸所有的
                 circleManager.moveByTouch(circleManager.getCirclesInDistance(
                         new Point((int) event.getX(), (int) event.getY()
                         ), distance),event,isFly);
+                break;
+            case 4:// TODO: 2021/3/16
         }
         return true;
     }

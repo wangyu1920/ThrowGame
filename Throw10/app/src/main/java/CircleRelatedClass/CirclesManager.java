@@ -10,6 +10,7 @@ import android.graphics.Region;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Objects;
@@ -38,19 +39,28 @@ public class CirclesManager{
     * int Draw(Canvas canvas)|(Canvas canvas,Circle[] circles)|(Canvas canvas,Circle circle,int color)
     * */
     private Integer numberOfCircles=0;
-    Hashtable<String, Circle> hashtable = new Hashtable<>();
-    Iterator valuesIterator=hashtable.values().iterator();
-    Iterator keyIterator=hashtable.keySet().iterator();
+    private HashMap<String, Circle> circleHashMap = new HashMap<>();
+    Iterator valuesIterator=circleHashMap.values().iterator();
+    Iterator keyIterator=circleHashMap.keySet().iterator();
 
-    //    --------getter----------------------------
+    //    -------getter----------------------------
 
     public int getNumberOfCircles() {
         return numberOfCircles;
     }
-//    -----------tools-------------------------------------------------
+
+    public HashMap<String, Circle> getCircleHashMap() {
+        return circleHashMap;
+    }
+
+    public void setCircleHashMap(HashMap<String, Circle> circleHashMap) {
+        this.circleHashMap = circleHashMap;
+    }
+
+    //    -----------tools-------------------------------------------------
     private void refreshIterator() {
-        valuesIterator=hashtable.values().iterator();
-        keyIterator=hashtable.keySet().iterator();
+        valuesIterator=circleHashMap.values().iterator();
+        keyIterator=circleHashMap.keySet().iterator();
     }
     private boolean pointInPath(Path path, Point point) {
         path.close();
@@ -67,7 +77,7 @@ public class CirclesManager{
             return 0;
         }
         numberOfCircles++;
-        hashtable.put(numberOfCircles.toString(),new Circle(x,y));
+        circleHashMap.put(numberOfCircles.toString(),new Circle(x,y));
         refreshIterator();
         return numberOfCircles;
     }
@@ -77,7 +87,7 @@ public class CirclesManager{
             return 0;
         }
         numberOfCircles++;
-        hashtable.put(numberOfCircles.toString(),circle);
+        circleHashMap.put(numberOfCircles.toString(),circle);
         refreshIterator();
         return numberOfCircles;
     }
@@ -86,7 +96,7 @@ public class CirclesManager{
             return 0;
         }
         numberOfCircles++;
-        hashtable.put(numberOfCircles.toString(),new Circle(point,r,colorOfCircle,m));
+        circleHashMap.put(numberOfCircles.toString(),new Circle(point,r,colorOfCircle,m));
         refreshIterator();
         return numberOfCircles;
     }
@@ -96,8 +106,8 @@ public class CirclesManager{
         String key;
         while (keyIterator.hasNext()) {
             key= (String) keyIterator.next();
-            if (Objects.equals(hashtable.get(key), circle)) {
-                hashtable.remove(key);
+            if (Objects.equals(circleHashMap.get(key), circle)) {
+                circleHashMap.remove(key);
             }
         }
         refreshIterator();
@@ -107,9 +117,9 @@ public class CirclesManager{
         refreshIterator();
         while (keyIterator.hasNext()) {
             String key= (String) keyIterator.next();
-            Circle circle=(Circle) hashtable.get(key);
+            Circle circle=(Circle) circleHashMap.get(key);
             if (circle!=null&&!circle.isExist()) {
-                hashtable.remove(key);
+                circleHashMap.remove(key);
                 deleteCircleIfNeeded();
             }
         }
@@ -117,14 +127,14 @@ public class CirclesManager{
         refreshIterator();
     }
     public void deleteCircle() {
-        hashtable.clear();
+        circleHashMap.clear();
         refreshIterator();
     }
 //------------------找小球(多个)(一个)--------------------------------------
 
     //  返回所有小球
     public Circle[] getCirclesAll() {
-        return hashtable.values().toArray(new Circle[0]);
+        return circleHashMap.values().toArray(new Circle[0]);
     }
 
 //  遍历，判断是否有小球包含这个点，返回这些小球的数组，没有返回null
@@ -256,16 +266,16 @@ public class CirclesManager{
     }
 //  返回最近一次生成的Circle
     public Circle getCircleNew() {
-        return hashtable.get(numberOfCircles.toString());
+        return circleHashMap.get(numberOfCircles.toString());
     }
 //    根据key返回小球
     public Circle getCircleByKey(int key) {
-        return hashtable.get(String.valueOf(key));
+        return circleHashMap.get(String.valueOf(key));
     }
 
     //-------------移动小球--------------------------------------
     public void moveByTouch(int key, MotionEvent event,boolean b) {
-        hashtable.get(String.valueOf(key)).moveByTouch(event,b);
+        circleHashMap.get(String.valueOf(key)).moveByTouch(event,b);
     }
     public void moveByTouch(Circle[] circles, MotionEvent event, boolean b) {
         if (circles[0] == null) {

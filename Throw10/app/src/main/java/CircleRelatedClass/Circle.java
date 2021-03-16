@@ -32,7 +32,6 @@ public class Circle extends FlyCount{
     Point point0;
     Thread threadOfCount= new Thread(
             () -> {
-                long i=0;
                 isFly = true;
                 float[] floats=measure(point0);
                 createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
@@ -47,7 +46,7 @@ public class Circle extends FlyCount{
 
                     }
                     try {
-                        wait(20);
+                        wait(10);
                     } catch (Exception ignore) {
 
                     }
