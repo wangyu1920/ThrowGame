@@ -56,10 +56,10 @@ public class MainView extends View {
         int time=0;
         pathManager.draw(canvas);
         switch (drawMode) {
-            case 1:
+            case 1://画所有的小球
                 time+=circleManager.Draw(canvas);
                 break;
-            case 2:
+            case 2://画被触摸和在飞行的小球
                 time+=circleManager.Draw(canvas, circleManager.getCirclesIsFly(true));
                 time+=circleManager.Draw(canvas, circleManager.getCirclesIsTouch(true));
                 break;
@@ -82,7 +82,7 @@ public class MainView extends View {
                 circleManager.moveByTouch(new Circle[]{circle}
                         ,event,isFly);
                 break;
-            case 2://触摸所有的
+            case 2://触摸distance以内的
                 circleManager.moveByTouch(circleManager.getCirclesInDistance(
                         new Point((int) event.getX(), (int) event.getY()
                         ), distance),event,isFly);

@@ -23,7 +23,7 @@ import android.view.MotionEvent;
 public class Circle extends FlyCount{
     int device_width=0;
     int device_height=0;
-    private int ColorOfCircle= Color.parseColor("#ff000000");
+    private int ColorOfCircle= Color.parseColor("#ff005555");
     private int ColorOfRope = Color.parseColor("#ff0000ff");
     private boolean isTouch=false;
     private boolean isExist=true;
@@ -32,23 +32,26 @@ public class Circle extends FlyCount{
     Point point0;
     Thread threadOfCount= new Thread(
             () -> {
-                isFly = true;
+                boolean b=true;
                 float[] floats=measure(point0);
                 createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
                 while (true) {
                     if (isFly) {
-                        if (point.y > device_height||point.x>device_width|point.x<-r) {
-                            isFly=false;
-                            isExist=false;
-                            return;
+                        if (!b) {
+                            b=true;
+                            floats=measure(point0);
+                            createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
                         }
-                        point=count();
-
-                    }
-                    try {
-                        wait(10);
-                    } catch (Exception ignore) {
-
+                        if (point.y > device_height || point.x > device_width | point.x < -r) {
+                            isFly = false;
+                            isExist = false;
+                            break;
+                        }
+                        point = count();
+                    } else {
+                        if (b) {
+                            b=false;
+                        }
                     }
                 }
             }
@@ -169,7 +172,10 @@ public class Circle extends FlyCount{
     }
 //  让小球起飞,更新小球坐标;飞出边界则回收小球
     public void Fly(Point point0) {
-        threadOfCount.start();
+        isFly=true;
+        if (!threadOfCount.isAlive()) {
+            threadOfCount.start();
+        }
     }
 //    根据事件来改变小球的坐标，b决定了是否发射小球
     public void moveByTouch(MotionEvent event,Boolean b) {

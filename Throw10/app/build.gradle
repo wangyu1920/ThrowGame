@@ -10,8 +10,8 @@ android {
         applicationId "com.example.throw10"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 5
-        versionName "2.3"
+        versionCode 6
+        versionName "2.35"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

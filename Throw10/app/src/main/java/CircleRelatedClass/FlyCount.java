@@ -26,7 +26,7 @@ public class FlyCount implements PhysicalParameter{
     public float r=50;
     public Point point=new Point(0,0);
 //    将圆形打破成点（标志点）的数量，决定了碰撞计算精度
-    private int num=126;
+    private int num=100;
 //    纳入计算的路径集合
     private PathManager pathManager=new PathManager();
     //    小球速度系数，决定整体运动快慢
@@ -73,7 +73,7 @@ public class FlyCount implements PhysicalParameter{
         }
         return points;
     }
-    //    测出小球相对指定点的弧度-Math.PI/2
+    //    测出小球相对指定点的弧度
     private double measure(Point point0) {
         float dy=point.y-point0.y;
         float dx=point.x-point0.x;
@@ -90,7 +90,7 @@ public class FlyCount implements PhysicalParameter{
         } else {
             angle=2*Math.PI-angleOfCos;
         }
-        return angle-Math.PI/2;
+        return angle;
     }
 
     private void reflect(double radian,float rateY,float rateX) {
@@ -116,20 +116,20 @@ public class FlyCount implements PhysicalParameter{
         region.setPath(path, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
         return region.contains(point.x, point.y);
     }
-//  和measure()方法对应的用来判断小球撞击长方形path方向的方法,返回值也-PI/2
-//    测的是点相对path中心的弧度-PI/2
+//  和measure()方法对应的用来判断小球撞击长方形path方向的方法
+//    测的是点相对path中心的弧度
     private double getKnockDirection(PathWithMode pathWithMode,Point thePoint) {
         pathWithMode.close();
         RectF bounds = new RectF();
         pathWithMode.computeBounds(bounds, true);
         if (Math.abs(thePoint.x - bounds.left) < 6) {
-            return Math.PI/2;
-        } else if (Math.abs(thePoint.y - bounds.top) < 6) {
-            return 0;
-        } else if (Math.abs(thePoint.x - bounds.right) < 6) {
-            return -Math.PI/2;
-        } else {
             return Math.PI;
+        } else if (Math.abs(thePoint.y - bounds.top) < 6) {
+            return Math.PI/2;
+        } else if (Math.abs(thePoint.x - bounds.right) < 6) {
+            return 0;
+        } else {
+            return Math.PI*1.5;
         }
 
     }
@@ -140,7 +140,7 @@ public class FlyCount implements PhysicalParameter{
         if (pathManager.getNum() == 0) {
             return null;
         }
-        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,10);
+        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,100);
         if (paths == null) {
             return null;
         }
@@ -149,19 +149,19 @@ public class FlyCount implements PhysicalParameter{
         }
         for (PathWithMode path : paths) {
             if (!path.isCircle) {
-                double radian = getKnockDirection(path, point);
-                for (byte i = 0; i < 4; i++) {
-                    Point pointNeeded = new Point((int) (point.x + Math.cos(radian - i * Math.PI / 2)),
-                            (int) (point.y + Math.sin(radian - i * Math.PI / 2)));
+                double radian;
+                for (int i = 0; i < 4; i++) {
+                    Point pointNeeded = new Point((int) (point.x + r*Math.cos(Math.PI*(0.5*i))),
+                            (int) (point.y + r*Math.sin(Math.PI*(0.5*i))));
                     if (pointInPath(path, pointNeeded) &&
-                            (!path.equal(pathKnocked))) {
+                            (!path.equals(pathKnocked))) {
                         radian = getKnockDirection(path, pointNeeded);
                         switch (path.mode) {
                             case 1://原速率
-                                reflect(radian, -1, 1);
+                                reflect(radian-Math.PI/2, -1, 1);
                                 break;
                             case 2://百分比
-                                reflect(radian, path.rateY, path.rateX);
+                                reflect(radian-Math.PI/2, path.rateY, path.rateX);
                                 break;
                             case 3://骤停
                                 vx0 = 0;
@@ -178,7 +178,7 @@ public class FlyCount implements PhysicalParameter{
                     Point thePoint = new Point(point.x + (int) (r * Math.cos(2 * Math.PI * i / 360)),
                             point.y + (int) (r * Math.sin(2 * Math.PI * i / num)));
                     if (pointInPath(path, thePoint) &&
-                            (!path.equal(pathKnocked))) {
+                            (!path.equals(pathKnocked))) {
                         radian = getKnockDirection(path,thePoint);
                         switch (path.mode) {
                             case 1://原速率
@@ -199,40 +199,32 @@ public class FlyCount implements PhysicalParameter{
                     }
                 }
             } else {
-                for (byte i = 0; i < num;i++) {
-                    Point thePoint = new Point(point.x + (int) (r * Math.cos(2 * Math.PI * i / 360)),
-                            point.y + (int) (r * Math.sin(2 * Math.PI * i / num)));
-                    if (pointInPath(path, thePoint) &&
-                            (!path.equal(pathKnocked))) {
-                        double radian = measure(path.point);
-                        switch (path.mode) {
-                            case 1://原速率
-                                reflect(radian, -1, 1);
-                                break;
-                            case 2://百分比
-                                reflect(radian, path.rateY, path.rateX);
-                                break;
-                            case 3://骤停
-                                vx0 = 0;
-                                vy0 = 0;
-                                isFly = false;
-                                break;
-                            case 4:// TODO: 2021/3/11
+                double radian = measure(path.point);
+                Point thePoint = new Point(point.x + (int) (r * Math.cos(-radian)),
+                        point.y + (int) (r * Math.sin(-radian)));
+                if (pointInPath(path, thePoint) &&
+                        (!path.equals(pathKnocked))) {
+                    switch (path.mode) {
+                        case 1://原速率
+                            reflect(radian-Math.PI/2, -1, 1);
+                            break;
+                        case 2://百分比
+                            reflect(radian-Math.PI/2, path.rateY, path.rateX);
+                            break;
+                        case 3://骤停
+                            vx0 = 0;
+                            vy0 = 0;
+                            isFly = false;
+                            break;
+                        case 4:// TODO: 2021/3/11
 
-                        }
-                        return path;
                     }
+                    return path;
                 }
             }
         }
         return null;
     }
-
-    /*for (byte i = 0; i < num;i++) {
-        Point thePoint=new Point(point.x+(int)(r*Math.cos(2*Math.PI*i/360)),
-                point.y + (int) (r*Math.sin(2*Math.PI*i/num)));
-
-    }*/
 
 //    -------------------------------------------------
     public void createFlyCount(float velocity0, float angleOfThrow, Point point, int fx, int fy, int mm) {

@@ -3,7 +3,6 @@ package PathRelatedClass;
 import android.graphics.Path;
 import android.graphics.Point;
 
-
 public class PathWithMode extends Path {
     //    <碰撞模式>1:原速率反弹 2:百分比速率反弹 3:骤停 4:缓停
     public int mode=1;
@@ -28,13 +27,12 @@ public class PathWithMode extends Path {
         float dx= point.x-p.x;
         return  (float) Math.sqrt(dx * dx + dy * dy);
     }
-
     @Override
     public String toString() {
         return  name;
     }
 
-    public boolean equal(PathWithMode pathWithMode) {
+    public boolean equals(PathWithMode pathWithMode) {
         if (pathWithMode == null) {
             return false;
         }
