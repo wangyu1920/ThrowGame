@@ -30,6 +30,43 @@ public class Circle extends FlyCount{
     private boolean willFly=false;
     Paint paint;
     Point point0;
+
+    private class ThreadOfCount {
+        Thread threadOfCount= new Thread(
+                () -> {
+                    boolean b=true;
+                    float[] floats=measure(point0);
+                    createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
+                    while (true) {
+                        if (isFly) {
+                            if (!b) {
+                                b=true;
+                                floats=measure(point0);
+                                createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
+                            }
+                            if (point.y > device_height || point.x > device_width | point.x < -r) {
+                                isFly = false;
+                                isExist = false;
+                                break;
+                            }
+                            point = count();
+                        } else {
+                            if (b) {
+                                b=false;
+                            }
+                            try {
+                                Circle.this.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+        );
+        public void startCount() {
+            threadOfCount.start();
+        }
+    }
     Thread threadOfCount= new Thread(
             () -> {
                 boolean b=true;
@@ -192,7 +229,7 @@ public class Circle extends FlyCount{
         float y=event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (Math.abs(x - point.x) + Math.abs(y - point.y) > r*1.4) {
+                if (Math.abs(x - point.x) + Math.abs(y - point.y) > r*2) {
                     return;
                 }
                  point0=new Point(point.x,point.y);
@@ -244,7 +281,7 @@ public class Circle extends FlyCount{
         if (isExist()) {
             canvas.drawCircle(point.x,point.y,r,paint);
         }else {
-            try{threadOfCount.interrupt();}catch (Exception ignore){}
+            try{threadOfCount.destroy();}catch (Exception ignore){}
         }
         if (isTouch()&&willFly&&isExist()) {
             //        小球到固定点上的一条线

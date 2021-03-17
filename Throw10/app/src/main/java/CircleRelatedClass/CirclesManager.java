@@ -119,11 +119,11 @@ public class CirclesManager{
             String key= (String) keyIterator.next();
             Circle circle=(Circle) circleHashMap.get(key);
             if (circle!=null&&!circle.isExist()) {
+                circle.threadOfCount.interrupt();
                 circleHashMap.remove(key);
                 deleteCircleIfNeeded();
             }
         }
-
         refreshIterator();
     }
     public void deleteCircle() {
@@ -297,7 +297,6 @@ public class CirclesManager{
     }
     public int Draw(Canvas canvas,Circle[] circles) {
         if (circles[0] == null) {
-            Log.e("CirclesManager>Draw>circles","null");
             return 0;
         }
         int time=0;
@@ -309,7 +308,6 @@ public class CirclesManager{
 //    将小球以指定颜色绘制,无论小球本身是什么颜色
     public int Draw(Canvas canvas,Circle circle,int color) {
         if (circle == null) {
-            Log.e("CirclesManager>Draw>circle","null");
             return 0;
         }
         int time=0;

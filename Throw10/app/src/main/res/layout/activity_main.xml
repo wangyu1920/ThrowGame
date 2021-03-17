@@ -6,8 +6,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <View.MainView
-        android:id="@+id/view"
+    <View.PathView
+        android:id="@+id/pathView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View.CircleView
+        android:id="@+id/CircleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import java.util.Objects;
@@ -13,13 +12,15 @@ import java.util.Random;
 
 import CircleRelatedClass.Circle;
 import PathRelatedClass.PathWithMode;
-import View.MainView;
+import View.CircleView;
+import View.PathView;
 
 public class MainActivity extends AppCompatActivity {
     private int deviceWidth;
     private int deviceHeight;
 
-    MainView mainView;
+    CircleView circleView;
+    PathView pathView;
     Button buttonIsFly;
     Button buttonAddCircle;
     Button buttonAddPath;
@@ -36,31 +37,32 @@ public class MainActivity extends AppCompatActivity {
         buttonAddCircle = findViewById(R.id.button1);
         buttonAddPath = findViewById(R.id.button2);
         buttonClear = findViewById(R.id.button3);
-        mainView = findViewById(R.id.view);
-        buttonIsFly.setOnClickListener(v -> mainView.isFly=!mainView.isFly);
+        circleView = findViewById(R.id.CircleView);
+        pathView = findViewById(R.id.pathView);
+        buttonIsFly.setOnClickListener(v -> circleView.isFly=!circleView.isFly);
         buttonAddCircle.setOnClickListener(v -> {
             int num=0;
             while (num == 0) {
                 Circle circle=new Circle(500,500+(new Random().nextInt(100)));
-                circle.createPathManager(mainView.pathManager);
-                num=mainView.circleManager.addCircle(circle);
+                circle.createPathManager(pathView.pathManager);
+                num= circleView.circleManager.addCircle(circle);
             }
-            mainView.circleManager.deleteCircleIfNeeded();
+            circleView.circleManager.deleteCircleIfNeeded();
         });
         buttonAddPath.setOnClickListener(v -> {
 //                随机产生一个path的参数
             int x = new Random().nextInt(deviceWidth);
             int y= new Random().nextInt(deviceHeight);
-            float r = new Random().nextInt(70)+30;
+            float r = new Random().nextInt(50)+40;
 //                得到距离将生成的path最近的circle
-            Circle circle = mainView.circleManager.getCircleNearliest(new Point(x, y), false);
+            Circle circle = circleView.circleManager.getCircleNearliest(new Point(x, y), false);
 //                判断二者是否重叠，重叠则再次生成新的path参数直到不重叠
             if (circle != null) {
                 while ((circle.r + r )> circle.distanceOfPoint(new Point(x, y))) {
                     x = new Random().nextInt(deviceWidth);
                     y= new Random().nextInt(deviceHeight);
-                    r = new Random().nextInt(70)+30;
-                    circle=mainView.circleManager.getCircleNearliest(new Point(x,y),false);
+                    r = new Random().nextInt(50)+60;
+                    circle= circleView.circleManager.getCircleNearliest(new Point(x,y),false);
                 }
             }
 //                利用path参数产生path
@@ -76,24 +78,26 @@ public class MainActivity extends AppCompatActivity {
                 path.lineTo(x + r, y - r);
                 path.lineTo(x + r, y + r);
                 path.lineTo(x - r, y + r);
-                path.r= (float) (path.r*1.5+10);
+                path.r+= (float) (path.r*1.42+20);
                 path.close();
             }
-            mainView.pathManager.addPath(path);
+            pathView.pathManager.addPath(path);
+            pathView.invalidate();
             pathNum++;
 //                将path传入所有circle
-            Circle[] allCircles=mainView.circleManager.getCirclesAll();
+            Circle[] allCircles= circleView.circleManager.getCirclesAll();
             for (Circle allCircle : allCircles) {
                 if (allCircle != null) {
                     allCircle.createPathManager(
-                            mainView.pathManager
+                            pathView.pathManager
                     );
                 }
             }
         });
         buttonClear.setOnClickListener(v -> {
-            mainView.pathManager.removePath();
-            mainView.circleManager.deleteCircle();
+            pathView.pathManager.removePath();
+            pathView.invalidate();
+            circleView.circleManager.deleteCircle();
         });
     }
 }

@@ -3,6 +3,7 @@ package CircleRelatedClass;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.view.WindowInsetsAnimation;
 
 import PathRelatedClass.PathManager;
 import PathRelatedClass.PathWithMode;
@@ -34,6 +35,11 @@ public class FlyCount implements PhysicalParameter{
 //    计算一定次数后将pathKnocked变为null用到的计数变量
     private long countNum=1000;
     private long readCountNum=1000;
+
+//    PointInPath的缓存
+    PathWithMode old;
+    RectF bounds;
+    Region region;
 
 //    ________________________________________________
 
@@ -109,11 +115,14 @@ public class FlyCount implements PhysicalParameter{
         if (path.isCircle&&path.distanceOfPoint(this.point)<path.r+r) {
             return true;
         }
-        path.close();
-        RectF bounds = new RectF();
-        path.computeBounds(bounds, true);
-        Region region = new Region();
-        region.setPath(path, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
+        if (path!=old) {
+            path.close();
+            old=path;
+            bounds = new RectF();
+            path.computeBounds(bounds, true);
+            region = new Region();
+            region.setPath(path, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
+        }
         return region.contains(point.x, point.y);
     }
 //  和measure()方法对应的用来判断小球撞击长方形path方向的方法
@@ -122,25 +131,79 @@ public class FlyCount implements PhysicalParameter{
         pathWithMode.close();
         RectF bounds = new RectF();
         pathWithMode.computeBounds(bounds, true);
-        if (Math.abs(thePoint.x - bounds.left) < 6) {
+        float left=Math.abs(thePoint.x - bounds.left);
+        float top = Math.abs(thePoint.y - bounds.top);
+        float right = Math.abs(thePoint.x - bounds.right);
+        float bottom = Math.abs(thePoint.y - bounds.bottom);
+        float dy=point.y-thePoint.y;
+        float dx=point.x-thePoint.x;
+        float min = Math.min(left, Math.min(top, Math.min(right, bottom)));
+        if (min==left) {
+            if (bottom - left < 6) {
+                if (-dx > dy) {
+                    return Math.PI;
+                }
+                return Math.PI/2;
+            }
+            if (top - left < 6) {
+                if (-dx > -dy) {
+                    return Math.PI;
+                }
+                return Math.PI*1.5;
+            }
             return Math.PI;
-        } else if (Math.abs(thePoint.y - bounds.top) < 6) {
-            return Math.PI/2;
-        } else if (Math.abs(thePoint.x - bounds.right) < 6) {
+        } else if (min==top) {
+            if (left-top < 6) {
+                if (-dx > -dy) {
+                    return Math.PI;
+                }
+                return Math.PI*1.5;
+            }
+            if (right - top < 6) {
+                if (dx > -dy) {
+                    return 0;
+                }
+                return Math.PI*1.5;
+            }
+            return Math.PI*1.5;
+        } else if (min==right) {
+            if (top-right < 6) {
+                if (dx > -dy) {
+                    return 0;
+                }
+                return Math.PI*1.5;
+            }
+            if (bottom-right < 6) {
+                if (dx > dy) {
+                    return 0;
+                }
+                return Math.PI*1.5;
+            }
             return 0;
         } else {
-            return Math.PI*1.5;
+            if (right-bottom < 6) {
+                if (dx > dy) {
+                    return 0;
+                }
+                return Math.PI*1.5;
+            }
+            if (left-bottom < 6) {
+                if (-dx > dy) {
+                    return Math.PI;
+                }
+                return Math.PI/2;
+            }
+            return Math.PI*0.5;
         }
 
     }
-
 
 //  如果小球标志点触碰了path,则根据其mode执行相应操作,并返回该path,没有则返回null
     public PathWithMode countOfPaths() {
         if (pathManager.getNum() == 0) {
             return null;
         }
-        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,100);
+        PathWithMode[] paths=pathManager.getPathNeedCount(point,r,50);
         if (paths == null) {
             return null;
         }
@@ -174,18 +237,19 @@ public class FlyCount implements PhysicalParameter{
                         return path;
                     }
                 }
-                for (byte i = 0; i < num;i++) {
-                    Point thePoint = new Point(point.x + (int) (r * Math.cos(2 * Math.PI * i / 360)),
-                            point.y + (int) (r * Math.sin(2 * Math.PI * i / num)));
+                radian = measure(path.point)+Math.PI/2;
+                for (int i = 0; i < num;i++) {
+                    Point thePoint = new Point(point.x + (int) (r * Math.cos(radian+i*Math.PI/num)),
+                            point.y + (int) (r * Math.sin(radian+Math.PI * i / num)));
                     if (pointInPath(path, thePoint) &&
                             (!path.equals(pathKnocked))) {
                         radian = getKnockDirection(path,thePoint);
                         switch (path.mode) {
                             case 1://原速率
-                                reflect(radian, -1, 1);
+                                reflect(radian-Math.PI/2, -1, 1);
                                 break;
                             case 2://百分比
-                                reflect(radian, path.rateY, path.rateX);
+                                reflect(radian-Math.PI/2, path.rateY, path.rateX);
                                 break;
                             case 3://骤停
                                 vx0 = 0;
