@@ -2,6 +2,7 @@ package View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -17,7 +18,7 @@ public class PathView extends View {
     //    画布大小参数
     private int height=0;
     private int width=0;
-
+    public SharedPreferences preferences;
     public PathView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -32,7 +33,7 @@ public class PathView extends View {
         if (pathManager.getOne("bound") == null) {
             PathWithMode pathWithMode=new PathWithMode("bound",
                     new Point(width/2,height+100),
-                    2000,false);
+                    2000,false,preferences);
             pathWithMode.moveTo(-5,height);
             pathWithMode.lineTo(width+5,height);
             pathWithMode.lineTo(width+5,height+15);

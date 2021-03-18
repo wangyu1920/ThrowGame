@@ -1,5 +1,6 @@
 package CircleRelatedClass;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -7,7 +8,10 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.os.Build;
 import android.view.MotionEvent;
+
+import androidx.annotation.RequiresApi;
 /*小球类
 * 继承飞行计算类FlyCount，设备信息常量接口DeviceInform,物理参数接口PhysicalParameter
 * 可修改的参数：坐标Point；半径r；颜色ColorOfCircle；质量m；额外恒力fx,fy；
@@ -30,43 +34,6 @@ public class Circle extends FlyCount{
     private boolean willFly=false;
     Paint paint;
     Point point0;
-
-    private class ThreadOfCount {
-        Thread threadOfCount= new Thread(
-                () -> {
-                    boolean b=true;
-                    float[] floats=measure(point0);
-                    createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
-                    while (true) {
-                        if (isFly) {
-                            if (!b) {
-                                b=true;
-                                floats=measure(point0);
-                                createFlyCount(floats[2], (float) (floats[1]+Math.PI),point0);
-                            }
-                            if (point.y > device_height || point.x > device_width | point.x < -r) {
-                                isFly = false;
-                                isExist = false;
-                                break;
-                            }
-                            point = count();
-                        } else {
-                            if (b) {
-                                b=false;
-                            }
-                            try {
-                                Circle.this.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-        );
-        public void startCount() {
-            threadOfCount.start();
-        }
-    }
     Thread threadOfCount= new Thread(
             () -> {
                 boolean b=true;
@@ -149,7 +116,7 @@ public class Circle extends FlyCount{
     }
 //    ----------constructor------------------------------------
 
-//    2个构造方法，在指定位置产生一个小球；默认值：半径r=80；颜色=黑色；质量=50
+//    2个构造方法，在指定位置产生一个小球；默认值：半径r=80；颜色=深蓝色；质量=50
     public Circle(int x, int y) {
         this.point = new Point(x,y);
     }
@@ -159,6 +126,22 @@ public class Circle extends FlyCount{
         this.r = r;
         ColorOfCircle = colorOfCircle;
         this.m = m;
+    }
+
+    public Circle(int x,int y,SharedPreferences preferences) {
+        this(x, y);
+        if (preferences == null) {
+            return;
+        }
+        setParameter(preferences);
+    }
+    public void setParameter(SharedPreferences preferences) {
+        super.setParameter(preferences);
+        setColorOfCircle(preferences.getInt("Circle.color",Color.parseColor("#ff005555")));
+        setColorOfRope(preferences.getInt("Circle.ropeColor",Color.parseColor("#ff0000ff")));
+        paint=null;
+        /*setPoint(new Point(preferences.getInt("Circle.point.x",500),
+                preferences.getInt("Circle.point.y",500)));*/
     }
 
     //    _________method______________________________________
@@ -268,6 +251,7 @@ public class Circle extends FlyCount{
     }
 
     //    如果小球存在于屏幕，绘制小球
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public int DrawCircle(Canvas canvas) {
         long t1=System.currentTimeMillis();
         if (device_height == 0) {

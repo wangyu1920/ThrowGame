@@ -1,5 +1,7 @@
 package PathRelatedClass;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Point;
 
@@ -10,10 +12,27 @@ public class PathWithMode extends Path {
     public float rateX= (float) 1;
     private final String name;
     public boolean isCircle;
+//    颜色
+    public int color= Color.RED;
 //    是圆形则为圆心，否则为几何中心
     public Point point;
 //    是圆形则是半径，否则是影响范围，PathManager类会依据这个查找Path
     public float r;
+
+    public void setParameter(SharedPreferences preferences) {
+        color = preferences.getInt("Path.color",Color.YELLOW);
+        mode = preferences.getInt("Path.mode", 1);
+        rateX = preferences.getFloat("Path.rateX", 1);
+        rateY = preferences.getFloat("Path.rateY", (float) -0.7);
+    }
+    public PathWithMode(String name, Point point, float r, boolean isCircle,
+                        SharedPreferences preferences) {
+        this(name, point, r, isCircle);
+        if (preferences == null) {
+            return;
+        }
+        setParameter(preferences);
+    }
     public PathWithMode(String name, Point point, float r ,boolean isCircle) {
         super();
         this.point=point;
@@ -32,11 +51,11 @@ public class PathWithMode extends Path {
         return  name;
     }
 
-    public boolean equals(PathWithMode pathWithMode) {
+    public boolean doNotEquals(PathWithMode pathWithMode) {
         if (pathWithMode == null) {
-            return false;
+            return true;
         }
-        return this.name.equals(pathWithMode.name);
+        return !this.name.equals(pathWithMode.name);
     }
     public String getName() {
         return name;

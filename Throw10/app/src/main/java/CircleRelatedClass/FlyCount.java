@@ -1,9 +1,9 @@
 package CircleRelatedClass;
 
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.view.WindowInsetsAnimation;
 
 import PathRelatedClass.PathManager;
 import PathRelatedClass.PathWithMode;
@@ -42,6 +42,19 @@ public class FlyCount implements PhysicalParameter{
     Region region;
 
 //    ________________________________________________
+
+    protected void setParameter(SharedPreferences preferences) {
+        if (preferences == null) {
+            return;
+        }
+        r = preferences.getFloat("Circle.r", 50);
+        fx = preferences.getInt("Circle.fx", 0);
+        fy = preferences.getInt("Circle.fy", 0);
+        m = preferences.getInt("Circle.m", 50);
+        num = preferences.getInt("Circle.num", 100);
+        vRate = preferences.getFloat("Circle.vRate", (float) 0.3);
+
+    }
 
     public void setVRate(double vRate) {
         this.vRate = vRate;
@@ -217,7 +230,7 @@ public class FlyCount implements PhysicalParameter{
                     Point pointNeeded = new Point((int) (point.x + r*Math.cos(Math.PI*(0.5*i))),
                             (int) (point.y + r*Math.sin(Math.PI*(0.5*i))));
                     if (pointInPath(path, pointNeeded) &&
-                            (!path.equals(pathKnocked))) {
+                            (path.doNotEquals(pathKnocked))) {
                         radian = getKnockDirection(path, pointNeeded);
                         switch (path.mode) {
                             case 1://原速率
@@ -242,7 +255,7 @@ public class FlyCount implements PhysicalParameter{
                     Point thePoint = new Point(point.x + (int) (r * Math.cos(radian+i*Math.PI/num)),
                             point.y + (int) (r * Math.sin(radian+Math.PI * i / num)));
                     if (pointInPath(path, thePoint) &&
-                            (!path.equals(pathKnocked))) {
+                            (path.doNotEquals(pathKnocked))) {
                         radian = getKnockDirection(path,thePoint);
                         switch (path.mode) {
                             case 1://原速率
@@ -267,7 +280,7 @@ public class FlyCount implements PhysicalParameter{
                 Point thePoint = new Point(point.x + (int) (r * Math.cos(-radian)),
                         point.y + (int) (r * Math.sin(-radian)));
                 if (pointInPath(path, thePoint) &&
-                        (!path.equals(pathKnocked))) {
+                        (path.doNotEquals(pathKnocked))) {
                     switch (path.mode) {
                         case 1://原速率
                             reflect(radian-Math.PI/2, -1, 1);

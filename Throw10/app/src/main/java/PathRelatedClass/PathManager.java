@@ -1,5 +1,6 @@
 package PathRelatedClass;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -73,13 +74,18 @@ public class PathManager {
         return pathHashMap.get(name);
     }
 
+    public void resetParameter(SharedPreferences preferences) {
+        for (PathWithMode pathWithMode : pathHashMap.values()) {
+            pathWithMode.setParameter(preferences);
+        }
+    }
 
     //    --------------------------------------
     public void draw(Canvas canvas) {
         Paint paint=new Paint();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setColor(Color.YELLOW);
         for (PathWithMode pathWithMode : pathHashMap.values()) {
+            paint.setColor(pathWithMode.color);
             canvas.drawPath(pathWithMode, paint);
         }
     }

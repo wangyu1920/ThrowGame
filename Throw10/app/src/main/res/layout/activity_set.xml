@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingStart="50dp"
+    android:paddingEnd="50dp"
+    tools:context=".SetActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/小球颜色" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/RopeColor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/PathColor" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <EditText
+            android:layout_marginEnd="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="@string/小球颜色"
+            android:id="@+id/CircleColorS"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="@string/RopeColor"
+            android:id="@+id/CircleColorR"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:layout_marginEnd="10dp"
+            android:inputType="text" />
+        <EditText
+            android:hint="@string/PathColor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/CircleColorG"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="@string/小球半径" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Circle_r"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="小球质量：" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Circle_m"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="小球速度系数:" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Circle_vRate"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="小球默认产生坐标x,y：" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:id="@+id/Circle_pointX"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:layout_marginEnd="3dp"
+            tools:ignore="LabelFor" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:id="@+id/Circle_pointY"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="障碍物最小半径" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Path_rmi"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="障碍物最大半径：" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Path_rma"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="额外水平力：" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/fx"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="额外竖直力：" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/fy"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="撞击模式:(1:原速率反弹/2:自定义)" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Path_mode"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="径向速度系数" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Path_mode_RateY"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
+            android:text="横向速度系数" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Path_mode_RateX"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            tools:ignore="LabelFor" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ps：仅当撞击模式为2时后面的系数才生效，如果想恢复默认设置，清楚应用数据就行了"/>
+</LinearLayout>

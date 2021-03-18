@@ -2,6 +2,7 @@ package CircleRelatedClass;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Objects;
+
+import PathRelatedClass.PathWithMode;
 
 @SuppressLint("LongLogTag")
 public class CirclesManager{
@@ -81,6 +84,15 @@ public class CirclesManager{
         refreshIterator();
         return numberOfCircles;
     }
+    public int addCircle(int x, int y,SharedPreferences preferences) {
+        if (getCircleByPoint(new Point(x, y)) != null) {
+            return 0;
+        }
+        numberOfCircles++;
+        circleHashMap.put(numberOfCircles.toString(),new Circle(x,y,preferences));
+        refreshIterator();
+        return numberOfCircles;
+    }
 
     public int addCircle(Circle circle) {
         if (getCircleByPoint(circle.getPoint()) != null) {
@@ -91,6 +103,8 @@ public class CirclesManager{
         refreshIterator();
         return numberOfCircles;
     }
+
+
     public int addCircle(Point point, float r, int colorOfCircle, int m) {
         if (getCircleByPoint(point) != null) {
             return 0;
@@ -284,6 +298,12 @@ public class CirclesManager{
         }
         for (int i = circles.length-1; i >= 0; i--) {
             circles[i].moveByTouch(event,b);
+        }
+    }
+// 刷新参数
+    public void resetParameter(SharedPreferences preferences) {
+        for (Circle circle : circleHashMap.values()) {
+            circle.setParameter(preferences);
         }
     }
 //    -------------画小球----------------------------------

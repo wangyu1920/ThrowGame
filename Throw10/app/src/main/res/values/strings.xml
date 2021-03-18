@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Throw</string>
+    <string name="参数设置按钮">参数设置</string>
+    <string name="联系开发者按钮">联系开发者？</string>
+    <string name="颜色设置">颜色设置</string>
+    <string name="小球颜色">小球颜色</string>
+    <string name="RopeColor">小球拉扯时皮筋颜色</string>
+    <string name="PathColor">障碍物颜色</string>
+    <string name="小球半径">小球半径：</string>
 </resources>
