@@ -7,4 +7,15 @@
     <string name="RopeColor">小球拉扯时皮筋颜色</string>
     <string name="PathColor">障碍物颜色</string>
     <string name="小球半径">小球半径：</string>
+    <string name="circle_m">小球质量：</string>
+    <string name="circle_vRate">小球速度系数:</string>
+    <string name="circle_point_x_y">小球默认产生坐标x,y：</string>
+    <string name="path_r_min">障碍物最小半径</string>
+    <string name="path_r_max">障碍物最大半径：</string>
+    <string name="fx">额外水平力：</string>
+    <string name="fy">额外竖直力：</string>
+    <string name="path_mode">撞击模式:(1:原速率反弹/2:自定义)</string>
+    <string name="path_rateY">径向速度系数</string>
+    <string name="path_rateX">横向速度系数</string>
+    <string name="ps">ps：仅当撞击模式为2时后面的系数才生效，如果想恢复默认设置，清楚应用数据就行了</string>
 </resources>

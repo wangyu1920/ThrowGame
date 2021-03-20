@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="10dp"
-    android:paddingStart="50dp"
-    android:paddingEnd="50dp"
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp"
     tools:context=".SetActivity">
 
     <LinearLayout
@@ -72,39 +72,36 @@
         android:layout_gravity="center">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
             android:text="@string/小球半径" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/Circle_r"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="小球质量：" />
+            android:text="@string/circle_m" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/Circle_m"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.9"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="小球速度系数:" />
+            android:text="@string/circle_vRate" />
         <EditText
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -122,11 +119,10 @@
         android:layout_gravity="center">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="小球默认产生坐标x,y：" />
+            android:text="@string/circle_point_x_y" />
         <EditText
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -145,11 +141,10 @@
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="障碍物最小半径" />
+            android:text="@string/path_r_min" />
         <EditText
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -168,42 +163,39 @@
         android:layout_gravity="center">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="障碍物最大半径：" />
+            android:text="@string/path_r_max" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/Path_rma"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="额外水平力：" />
+            android:text="@string/fx" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/fx"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="额外竖直力：" />
+            android:text="@string/fy" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/fy"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
@@ -221,38 +213,36 @@
             android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="撞击模式:(1:原速率反弹/2:自定义)" />
+            android:text="@string/path_mode" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:id="@+id/Path_mode"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="径向速度系数" />
+            android:text="@string/path_rateY" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/Path_mode_RateY"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="text"
             tools:ignore="LabelFor" />
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:text="横向速度系数" />
+            android:text="@string/path_rateX" />
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:id="@+id/Path_mode_RateX"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
@@ -264,5 +254,5 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ps：仅当撞击模式为2时后面的系数才生效，如果想恢复默认设置，清楚应用数据就行了"/>
+        android:text="@string/ps"/>
 </LinearLayout>
