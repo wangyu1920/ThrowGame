@@ -34,6 +34,7 @@ public class Circle extends FlyCount{
     private boolean willFly=false;
     Paint paint;
     Point point0;
+    private int countPeriod=1;
     Thread threadOfCount= new Thread(
             () -> {
                 boolean b=true;
@@ -52,10 +53,23 @@ public class Circle extends FlyCount{
                             break;
                         }
                         point = count();
+                        try {
+                            Thread.sleep(countPeriod);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     } else {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         if (b) {
                             b=false;
                         }
+                    }
+                    if (!isExist()) {
+                        return;
                     }
                 }
             }
@@ -139,6 +153,7 @@ public class Circle extends FlyCount{
         super.setParameter(preferences);
         setColorOfCircle(preferences.getInt("Circle.color",Color.parseColor("#ff005555")));
         setColorOfRope(preferences.getInt("Circle.ropeColor",Color.parseColor("#ff0000ff")));
+        countPeriod=preferences.getInt("Circle.countPeriod", 1);
         paint=null;
         /*setPoint(new Point(preferences.getInt("Circle.point.x",500),
                 preferences.getInt("Circle.point.y",500)));*/

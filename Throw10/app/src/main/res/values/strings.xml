@@ -18,4 +18,8 @@
     <string name="path_rateY">径向速度系数</string>
     <string name="path_rateX">横向速度系数</string>
     <string name="ps">ps：仅当撞击模式为2时后面的系数才生效，如果想恢复默认设置，清楚应用数据就行了</string>
+    <string name="C_period">小球再次与上个障碍物碰撞时能发生反弹效果需要的时间/ms</string>
+    <string name="C_countPeriod_Text">重复计算小球位置的时间间隔(建议小于后者)/ms</string>
+    <string name="drawPeriod_Text">小球绘制间隔/ms</string>
+    <string name="energy">性能相关：</string>
 </resources>

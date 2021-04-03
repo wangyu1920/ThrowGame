@@ -19,6 +19,8 @@ public class SetActivity extends AppCompatActivity {
     EditText pc;
     EditText Cr;
     EditText Cm;
+    EditText C_period;
+    EditText C_countPeriod;
     EditText PR_min;
     EditText PR_max;
     EditText C_pointX;
@@ -29,6 +31,7 @@ public class SetActivity extends AppCompatActivity {
     EditText P_mode;
     EditText P_mode_X;
     EditText P_mode_Y;
+    EditText drawPeriod;
 
     @SuppressLint("CommitPrefEdits")
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,10 @@ public class SetActivity extends AppCompatActivity {
         Cr.setText(String.valueOf(preferences.getFloat("Circle.r",50)));
         Cm = findViewById(R.id.Circle_m);
         Cm.setText(String.valueOf(preferences.getInt("Circle.m",50)));
+        C_period = findViewById(R.id.C_period);
+        C_period.setText(String.valueOf(preferences.getInt("Circle.period",50)));
+        C_countPeriod = findViewById(R.id.C_countPeriod);
+        C_countPeriod.setText(String.valueOf(preferences.getInt("Circle.countPeriod",1)));
         fx = findViewById(R.id.fx);
         fy = findViewById(R.id.fy);
         fx.setText(String.valueOf(preferences.getInt("fx",0)));
@@ -70,6 +77,9 @@ public class SetActivity extends AppCompatActivity {
         C_pointY = findViewById(R.id.Circle_pointY);
         C_pointX.setText(String.valueOf(preferences.getInt("Circle.point.x",500)));
         C_pointY.setText(String.valueOf(preferences.getInt("Circle.point.y",500)));
+
+        drawPeriod = findViewById(R.id.drawPeriod);
+        drawPeriod.setText(String.valueOf(preferences.getInt("CircleView.drawPeriod",16)));
 
     }
 
@@ -115,6 +125,8 @@ public class SetActivity extends AppCompatActivity {
         editor.putInt("Circle.ropeColor", Color.parseColor(crc.getText().toString()));
         editor.putInt("Path.color", Color.parseColor(pc.getText().toString()));
         editor.putInt("Circle.m",toInt(Cm));
+        editor.putInt("Circle.period",toInt(C_period));
+        editor.putInt("Circle.countPeriod",toInt(C_countPeriod));
         editor.putInt("fx",toInt(fx));
         editor.putInt("fy",toInt(fy));
         editor.putInt("Path.mode",toInt(P_mode));
@@ -126,6 +138,8 @@ public class SetActivity extends AppCompatActivity {
         editor.putFloat("Circle.vRate",toFloat(CvRate));
         editor.putInt("Circle.point.x",toInt(C_pointX));
         editor.putInt("Circle.point.y",toInt(C_pointY));
+        editor.putInt("CircleView.drawPeriod",toInt(drawPeriod));
+
         editor.commit();
     }
 }

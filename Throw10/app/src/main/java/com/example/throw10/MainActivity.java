@@ -3,6 +3,7 @@ package com.example.throw10;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Path;
@@ -148,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         preferences = getSharedPreferences("name",MODE_PRIVATE);
+        pathView.preferences=this.preferences;
+        circleView.drawPeriod=getSharedPreferences("name", Context.MODE_PRIVATE)
+                .getInt("CircleView.drawPeriod",16);
         pathView.pathManager.resetParameter(preferences);
         circleView.circleManager.resetParameter(preferences);
     }

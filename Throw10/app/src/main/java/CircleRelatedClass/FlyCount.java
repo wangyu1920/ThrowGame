@@ -32,7 +32,8 @@ public class FlyCount implements PhysicalParameter{
     private PathManager pathManager=new PathManager();
     //    小球速度系数，决定整体运动快慢
     protected double vRate=0.3;
-//    计算一定次数后将pathKnocked变为null用到的计数变量
+//    计算一定次数后将pathKnocked变为null用到的计数变量，只建议修改第一条
+    private int reSetPathKnockedWhenNumIs=50;
     private long countNum=1000;
     private long readCountNum=1000;
 
@@ -53,6 +54,7 @@ public class FlyCount implements PhysicalParameter{
         m = preferences.getInt("Circle.m", 50);
         num = preferences.getInt("Circle.num", 100);
         vRate = preferences.getFloat("Circle.vRate", (float) 0.3);
+        reSetPathKnockedWhenNumIs = preferences.getInt("Circle.period", 50);
 
     }
 
@@ -220,7 +222,7 @@ public class FlyCount implements PhysicalParameter{
         if (paths == null) {
             return null;
         }
-        if (countNum % readCountNum > 500) {
+        if (countNum % readCountNum > reSetPathKnockedWhenNumIs) {
             pathKnocked=null;
         }
         for (PathWithMode path : paths) {

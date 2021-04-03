@@ -1,258 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    tools:context=".SetActivity"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="10dp"
-    android:paddingStart="30dp"
-    android:paddingEnd="30dp"
-    tools:context=".SetActivity">
-
+    android:layout_width="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/小球颜色" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/小球颜色" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/RopeColor" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/PathColor" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/RopeColor" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <EditText
+                android:layout_marginEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/小球颜色"
+                android:id="@+id/CircleColorS"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="@string/RopeColor"
+                android:id="@+id/CircleColorR"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:layout_marginEnd="10dp"
+                android:inputType="text" />
+            <EditText
+                android:hint="@string/PathColor"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/CircleColorG"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/PathColor" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/小球半径" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/Circle_r"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/circle_m" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/Circle_m"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/circle_vRate" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/Circle_vRate"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/circle_point_x_y" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:id="@+id/Circle_pointX"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginEnd="3dp"
+                tools:ignore="LabelFor" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:id="@+id/Circle_pointY"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/path_r_min" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/Path_rmi"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/path_r_max" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/Path_rma"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fx" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/fx"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fy" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/fy"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/path_mode" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:id="@+id/Path_mode"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/path_rateY" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/Path_mode_RateY"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/path_rateX" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:id="@+id/Path_mode_RateX"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/design_default_color_primary"
+            android:text="@string/energy"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/C_period" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:id="@+id/C_period"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/C_countPeriod_Text" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:id="@+id/C_countPeriod"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drawPeriod_Text" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:id="@+id/drawPeriod"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ps"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-        <EditText
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:hint="@string/小球颜色"
-            android:id="@+id/CircleColorS"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:hint="@string/RopeColor"
-            android:id="@+id/CircleColorR"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:layout_marginEnd="10dp"
-            android:inputType="text" />
-        <EditText
-            android:hint="@string/PathColor"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/CircleColorG"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/小球半径" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/Circle_r"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/circle_m" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/Circle_m"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/circle_vRate" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/Circle_vRate"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/circle_point_x_y" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:id="@+id/Circle_pointX"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:layout_marginEnd="3dp"
-            tools:ignore="LabelFor" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:id="@+id/Circle_pointY"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/path_r_min" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/Path_rmi"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/path_r_max" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/Path_rma"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/fx" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/fx"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/fy" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/fy"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/path_mode" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.6"
-            android:id="@+id/Path_mode"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/path_rateY" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/Path_mode_RateY"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_height="wrap_content"
-            android:text="@string/path_rateX" />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:id="@+id/Path_mode_RateX"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            tools:ignore="LabelFor" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ps"/>
-</LinearLayout>
+</ScrollView>

@@ -22,6 +22,11 @@ public class CircleView extends View {
     public float distance=200;
 //    <是否让球飞>
     public boolean isFly=false;
+
+//    <绘制画面间隔>
+    public int drawPeriod=getContext()
+        .getSharedPreferences("name",Context.MODE_PRIVATE).getInt(
+            "CircleView.drawPeriod",16);
 //    ------------------------------------
 
     public CircleView(Context context, @Nullable AttributeSet attrs) {
@@ -40,7 +45,7 @@ public class CircleView extends View {
                 time+=circleManager.Draw(canvas, circleManager.getCirclesIsTouch(true));
                 break;
         }
-        postInvalidateDelayed((16-time)>0?(16-time):1);
+        postInvalidateDelayed((drawPeriod-time)>0?(drawPeriod-time):1);
         super.onDraw(canvas);
     }
 
